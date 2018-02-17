@@ -1,9 +1,11 @@
-FROM alpine:latest
+FROM nimmis/alpine-micro:3.7
 MAINTAINER Keith keithy@consultant.com
+
+# based upon nimmis/alpine-apache-56
 
 COPY root/. /
 
-RUN	printf "Build of keithy/alpine-apache-php5, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+RUN	printf "Build of keithy/alpine-apache-php56, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
 
 	apk --no-cache add php5-apache2 php5-pdo_mysql php5-mysql libxml2-dev apache2-utils && \
 	
@@ -18,7 +20,6 @@ RUN	printf "Build of keithy/alpine-apache-php5, date: %s\n"  `date -u +"%Y-%m-%d
 
 VOLUME /web
 VOLUME /var/www/html
-VOLUME /backup
 VOLUME /server
 
 EXPOSE 80
