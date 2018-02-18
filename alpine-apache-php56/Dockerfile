@@ -9,6 +9,25 @@ RUN	apk update && apk upgrade && \
 
 	printf "Build of keithy/alpine-apache-php56, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
 
+	#APACHE
+
+    apk add apache2 libxml2 apache2-utils && \
+    mkdir /web/ && chown -R apache.www-data /web && \
+   
+    sed -i 's#^DocumentRoot ".*#DocumentRoot "/web/html"#g' /etc/apache2/httpd.conf && \
+    sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/httpd.conf && \
+    sed -i 's#^ServerRoot .*#ServerRoot /web#g'  /etc/apache2/httpd.conf && \
+    sed -i 's/^#ServerName.*/ServerName webproxy/' /etc/apache2/httpd.conf && \
+    sed -i 's#^IncludeOptional /etc/apache2/conf#IncludeOptional /web/config/conf#g' /etc/apache2/httpd.conf && \
+    sed -i 's#PidFile "/run/.*#Pidfile "/web/run/httpd.pid"#g'  /etc/apache2/conf.d/mpm.conf && \
+    sed -i 's#Directory "/var/www/localhost/htdocs.*#Directory "/web/html" >#g' /etc/apache2/httpd.conf && \
+    sed -i 's#Directory "/var/www/localhost/cgi-bin.*#Directory "/web/cgi-bin" >#g' /etc/apache2/httpd.conf && \
+
+    sed -i 's#/var/log/apache2/#/web/logs/#g' /etc/logrotate.d/apache2 && \
+    sed -i 's/Options Indexes/Options /g' /etc/apache2/httpd.conf && \
+
+	#PHP
+
 	apk add php5-apache2 php5-pdo_mysql php5-mysql apache2-utils && \
 	
 	# aiming to be minimal
@@ -21,9 +40,6 @@ RUN	apk update && apk upgrade && \
     
     # we get our config files from nimmis/alpine-apache-php5 so we dont need to set up our own
 
-	# fix compatible with old scripts
-    ln -s /usr/bin/php5 /usr/bin/php && \
-    
     echo "short_open_tag = On" > /etc/php5/conf.d/our_settings.ini && \
     echo "memory_limit = 256M" >> /etc/php5/conf.d/our_settings.ini && \
     
@@ -34,7 +50,7 @@ VOLUME /web
 VOLUME /var/www/html
 VOLUME /server
 
-EXPOSE 85
+EXPOSE 80
 
 
 
