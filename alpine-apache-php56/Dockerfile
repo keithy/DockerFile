@@ -12,7 +12,7 @@ RUN	apk update && apk upgrade && \
 	#APACHE
 
     apk add apache2 libxml2 apache2-utils && \
-    mkdir /web/ && chown -R apache.www-data /web && \
+    mkdir /web/ && chown -R apache.apache /web && \
    
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/web/html"#g' /etc/apache2/httpd.conf && \
     sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/httpd.conf && \
@@ -36,7 +36,7 @@ RUN	apk update && apk upgrade && \
     # apk add php5-mcrypt php5-json php5-gd php5-curl && \
     # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer&& \
 
-    chown -R apache.www-data /web && \
+    chown -R apache.apache /web && \
     
     # we get our config files from nimmis/alpine-apache-php5 so we dont need to set up our own
 

@@ -4,19 +4,17 @@
 
 if [ ! -d /web/config ]; then
   mkdir /web/config
-  chown -R apache.www-data /web/config
+  chown -R apache.apache /web/config
 fi
 
 if [ ! -d /web/logs ]; then
   mkdir /web/logs
-  chown -R apache.www-data /web/logs
+  chown -R apache.apache /web/logs
 fi
 
 if [ ! -f /web/config/httpd.conf ]; then
   cp -R /etc/apache2/* /web/config/
-  chown -R apache.www-data /web/config
-  # fix bug in httpd.conf
-  sed -i 's/^Group apache/Group www-data/' /web/config/httpd.conf
+  chown -R apache.apache /web/config
 fi
 
 if [ ! -d /web/modules ]; then
@@ -30,11 +28,11 @@ fi
 
 if [ ! -d /web/cgi-bin ]; then
   mkdir /web/cgi-bin
-  chown -R apache.www-data /web/cgi-bin
+  chown -R apache.apache /web/cgi-bin
 fi
 
 if [ ! -d /web/internal ]; then
   mkdir /web/internal
   cp -RpP /etc/apache2/internal/* /web/internal/
-  chown -R apache.www-data /web/internal
+  chown -R apache.apache /web/internal
 fi

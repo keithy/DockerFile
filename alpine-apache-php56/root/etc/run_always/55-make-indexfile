@@ -12,5 +12,5 @@ if [ ! -d /web/html ]; then
     <br>PHP version <?php echo phpversion(); ?>
   </body>
 </html>" > /web/html/index.php
-  chown -R apache.www-data /web/html
+  chown -R apache.apache /web/html
 fi

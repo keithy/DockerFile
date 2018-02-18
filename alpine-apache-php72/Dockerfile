@@ -29,7 +29,7 @@ RUN apk update && apk upgrade && \
 	#APACHE
 
     apk add apache2 libxml2 apache2-utils && \
-    mkdir /web/ && chown -R apache.www-data /web && \
+    mkdir /web/ && chown -R apache.apache /web && \
    
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/web/html"#g' /etc/apache2/httpd.conf && \
     sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/httpd.conf && \
