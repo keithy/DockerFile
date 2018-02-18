@@ -1,0 +1,68 @@
+FROM nimmis/alpine-micro:3.7
+MAINTAINER Keith keithy@consultant.com
+
+# based upon nimmis/alpine-apache-php7
+
+ARG IMAGE_NAME
+ARG DOCKER_REPO
+ARG BUILD_DATE
+ARG VCS_REF
+
+LABEL maintainer="keith <keithy@consultant.com>" \
+      org.label-schema.docker.dockerfile="/Dockerfile" \
+      org.label-schema.name="Apache2/php7 on Alpine OS" \
+      org.label-schema.url="https://github.com/keithy" \
+      org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="https://github.com/keithy/docker.git"
+
+COPY root/. /
+
+# trust this project public key to trust the packages.
+ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
+
+
+RUN apk update && apk upgrade && \
+
+	#printf "Build of %s, date: %s\n" $(echo $IMAGE_NAME | sed 's#^.*io/##')  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/$(echo $DOCKER_REPO | awk -F '/' '{print $NF}') && \
+	printf "Build of keithy/alpine-apache-php72, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+
+	# add the repository, make sure you replace the correct versions if you want.
+	 echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories  && \
+
+	apk add --update php7@php &&\
+	apk add --update php7-mbstring@php &&\
+ 
+
+    apk add php7-apache2@php php7-openssl@php && \
+    apk add php7-apcu@php php7-intl@php php7-json@php php7-gd@php php7-curl@php && \
+    apk add php7-fpm@php php7-mysqlnd@php php7-phar@php && \
+    
+    apk add php7-pdo_mysql@php php7-mysqli@php && \
+    
+    apk add php7-libsodium@php php7-memcached@php && \
+    
+    # removed php7-pgsql@php php7-sqlite3@php php7-mcrypt@php
+
+    apk add php7-imagick@php && \
+    
+    # install composer
+    # apk add libressl && \
+    # apk add curl openssl && \
+    # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
+
+    echo "short_open_tag = On" > /etc/php7/conf.d/our_settings.ini && \
+    echo "memory_limit = 256M" >> /etc/php7/conf.d/our_settings.ini && \
+    
+   	# fix compatible with old scripts
+    ln -s /usr/bin/php7 /usr/bin/php && \
+
+    #clear cache
+    rm -rf /var/cache/apk/*
+
+VOLUME /web
+VOLUME /var/www/html
+VOLUME /server
+
+EXPOSE 87
+
