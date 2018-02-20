@@ -47,8 +47,7 @@ RUN	apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 VOLUME /web
-VOLUME /var/www/html-A
-VOLUME /var/www/html-B
+VOLUME /var/www/
 VOLUME /server
 
 EXPOSE 80

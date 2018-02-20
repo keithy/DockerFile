@@ -45,8 +45,8 @@ just serve `/www/html` and symlink A->html, and use B for staging.
 	/var/www/htmlB
 	/var/www/htmlA --symlink-> /var/www/html	  
 
-Host server configurations may be mounted in the container at `/server` in order for other
-config to be available. (host:/ or host:/etc)
+The host server itself may be mounted in the container at `/server` in order for other
+config to be available. (or host:/ or host:/etc)
 
 * `--volume /:/server`
 * `--volume /etc:/server`
@@ -54,7 +54,7 @@ config to be available. (host:/ or host:/etc)
 Website Staging Toolkit
 =======================
 
-A [Rake](https://github.com/ruby/rake) based solution. Git repository changes are monitored, and when a new [tagged] release
+A Rake based solution. Git repository changes are monitored, and when a new [tagged] release
 is pushed, the existing `production` site is efficiently duplicated into the `rehearsal`
 area, and merged with new code.
 
