@@ -1,13 +1,11 @@
 FROM nimmis/alpine-micro:3.7
 MAINTAINER Keith keithy@consultant.com
 
-# based upon nimmis/alpine-apache-php5
-
 COPY root/. /
 
 RUN	apk update && apk upgrade && \
 
-	printf "Build of keithy/alpine-apache-php56, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
 
 	#APACHE
 
@@ -47,7 +45,8 @@ RUN	apk update && apk upgrade && \
     rm -rf /var/cache/apk/*
 
 VOLUME /web
-VOLUME /var/www/
+VOLUME /var/www/html-A
+VOLUME /var/www/html-B
 VOLUME /server
 
 EXPOSE 80
