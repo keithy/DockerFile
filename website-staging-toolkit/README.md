@@ -45,8 +45,8 @@ Live server website files are mounted locally at (/var/www):
 
 * `--volume /var/www:/var/www
 
-Container internal working directory structure, ensures that all files are on the same
-filesystem so that hard-links work (including to the stage area)
+Working directory structure, ensures that all files are on the same
+filesystem so that hard-links work (especially to the stage area)
 
 	/var/www/stage
 	/var/www/production ⟹ /var/www/html ⟹ /var/www/htmlA (or B)
