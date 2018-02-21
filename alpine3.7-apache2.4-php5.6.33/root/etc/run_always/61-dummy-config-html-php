@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# create empty index.hmtl if html directory does not exists
+# create empty index.html if html directory does not exists
 
 if [ ! -d /web/html ]; then
   mkdir /web/html

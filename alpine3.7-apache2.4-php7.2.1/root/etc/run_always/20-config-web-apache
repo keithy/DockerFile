@@ -2,11 +2,6 @@
 
 # popolate /web if empty
 
-if [ ! -d /web/config ]; then
-  mkdir /web/config
-  chown -R apache.apache /web/config
-fi
-
 if [ ! -d /web/logs ]; then
   mkdir /web/logs
   chown -R apache.apache /web/logs
@@ -37,9 +32,3 @@ if [ ! -d /web/internal ]; then
   chown -R apache.apache /web/internal
 fi
 
-
-if [ ! -d /web/php5 ]; then
-  mkdir /web/php5
-
-  chown -R apache.apache /web/php5
-fi

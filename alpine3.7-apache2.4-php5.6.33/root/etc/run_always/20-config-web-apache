@@ -1,11 +1,6 @@
 #!/bin/sh
 
-# popolate /web if empty
-
-if [ ! -d /web/config ]; then
-  mkdir /web/config
-  chown -R apache.apache /web/config
-fi
+# populate /web if empty
 
 if [ ! -d /web/logs ]; then
   mkdir /web/logs
@@ -36,3 +31,4 @@ if [ ! -d /web/internal ]; then
   cp -RpP /etc/apache2/internal/* /web/internal/
   chown -R apache.apache /web/internal
 fi
+

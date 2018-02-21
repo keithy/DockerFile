@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# provide a location for server specific php.ini files
+
+if [ ! -d /web/php7.2.1 ]; then
+  mkdir /web/php7.2.1
+  mv /etc/php7/conf.d/*_our_* /web/config/php7.2.1
+  chown -R apache.apache /web/php7.2.1
+fi

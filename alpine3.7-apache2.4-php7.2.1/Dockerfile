@@ -64,20 +64,17 @@ RUN apk update && apk upgrade && \
 
     apk add php7-imagick@php && \
     
-    # install composer
+	# leave composer for now
+	#
     # apk add libressl && \
     # apk add curl openssl && \
     # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
-
-    echo "short_open_tag = On" > /etc/php7/conf.d/99_our_settings.ini && \
-    echo "memory_limit = 256M" >> /etc/php7/conf.d/99_our_settings.ini && \
     
     #clear cache
     rm -rf /var/cache/apk/*
 
 VOLUME /web
-VOLUME /var/www/html-A
-VOLUME /var/www/html-B
+VOLUME /var/www
 VOLUME /server
 
 EXPOSE 80
