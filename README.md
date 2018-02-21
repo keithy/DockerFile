@@ -51,7 +51,7 @@ There may be directories shared internally between the `htmlA` and `htmlB` trees
 ### Not-yet Atomic Deployment
 	
 If the site codebase does not yet handle the atomic deployment scheme (above), just serve 
-`/www/html`, symlink `htmlA ⟹ html`, and use `htmlB` for `rehearsal` staging. 
+`/var/www/html`, symlink `htmlA ⟹ html`, and use `htmlB` for `rehearsal` staging. 
 Deployment is performed by renaming: `html`⟺`htmlB`.
 
 	/var/www/html
