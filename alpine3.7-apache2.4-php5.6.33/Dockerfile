@@ -5,7 +5,11 @@ MAINTAINER Keith keithy@consultant.com
 
 COPY root/. /
 
-RUN	apk update && apk upgrade && \
+# first remove edge repositories
+
+RUN	sed -i '#/edge/#d' /etc/apk/repositories && \
+ 	
+	apk update && apk upgrade && \
 
 	printf "Build of keithy/alpine-apache-php56, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
 
@@ -25,6 +29,14 @@ RUN	apk update && apk upgrade && \
 
     sed -i 's#/var/log/apache2/#/web/logs/#g' /etc/logrotate.d/apache2 && \
     sed -i 's/Options Indexes/Options /g' /etc/apache2/httpd.conf && \
+
+
+	#MEMCACHED
+	
+	apk add ca-certificates &&\
+	wget -q -O /etc/apk/keys/sgerrand.rsa.pub https://raw.githubusercontent.com/sgerrand/alpine-pkg-php5-memcached/master/sgerrand.rsa.pub &&\
+	wget https://github.com/sgerrand/alpine-pkg-php5-memcached/releases/download/2.2.0-r0/php5-memcached-2.2.0-r0.apk &&\
+	apk add php5-memcached-2.2.0-r0.apk &&\
 
 	#PHP
 

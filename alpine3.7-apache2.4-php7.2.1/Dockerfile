@@ -21,7 +21,11 @@ COPY root/. /
 # trust this project public key to trust the packages.
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
-RUN apk update && apk upgrade && \
+# first remove edge repositories
+
+RUN	sed -i '#/edge/#d' /etc/apk/repositories && \
+
+	apk update && apk upgrade && \
 
 	#printf "Build of %s, date: %s\n" $(echo $IMAGE_NAME | sed 's#^.*io/##')  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/$(echo $DOCKER_REPO | awk -F '/' '{print $NF}') && \
 	printf "Build of keithy/alpine-apache-php72, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
@@ -43,9 +47,14 @@ RUN apk update && apk upgrade && \
     sed -i 's#/var/log/apache2/#/web/logs/#g' /etc/logrotate.d/apache2 && \
     sed -i 's/Options Indexes/Options /g' /etc/apache2/httpd.conf && \
 
+	#MEMCACHED
+	
+	apk add memcached && \
+
 	#PHP
 
-	# add the repository, make sure you replace the correct versions if you want.
+	# add the most up to date php repository, replace the correct versions as reqd.
+	
 	 echo "@php https://php.codecasts.rocks/v3.7/php-7.2" >> /etc/apk/repositories  && \
 
 	apk add --update php7@php &&\
