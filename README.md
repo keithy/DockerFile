@@ -66,7 +66,7 @@ other configuration files (vhosts/db etc.) to be available in the container. (ho
 * `--volume /:/server`
 * or... `--volume /etc:/server`
 
-### mod_realdoc *(coming soon)*
+### mod_realdoc is included
 
 References:
  
