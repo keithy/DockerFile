@@ -11,7 +11,7 @@ RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
  	
 	apk update && apk upgrade && \
 
-	printf "Build of keithy/alpine-apache-php56, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
 
 	#APACHE
 

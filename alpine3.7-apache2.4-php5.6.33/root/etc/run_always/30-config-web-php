@@ -1,9 +1,0 @@
-#!/bin/sh
-
-# provide a location for server specific php.ini files
-
-if [ ! -d /web/php5.6.33 ]; then
-  mkdir /web/php5.6.33
-  mv /etc/php5/conf.d/*_our_* /web/config/php5.6.33
-  chown -R apache.apache /web/php5.6.33
-fi

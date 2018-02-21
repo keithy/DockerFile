@@ -3,9 +3,11 @@ MAINTAINER Keith keithy@consultant.com
 
 COPY root/. /
 
-RUN	apk update && apk upgrade && \
+RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
 
-	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+	apk update && apk upgrade && \
+
+	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/website-staging-toolkit && \
 
 	apk add ruby git &&\
 	

@@ -28,7 +28,7 @@ RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
 	apk update && apk upgrade && \
 
 	#printf "Build of %s, date: %s\n" $(echo $IMAGE_NAME | sed 's#^.*io/##')  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/$(echo $DOCKER_REPO | awk -F '/' '{print $NF}') && \
-	printf "Build of keithy/alpine-apache-php72, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILD && \
+	printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
 
 	#APACHE
 
