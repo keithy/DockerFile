@@ -23,7 +23,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 # first remove edge repositories
 
-RUN	sed -i '#/edge/#d' /etc/apk/repositories && \
+RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
 
 	apk update && apk upgrade && \
 
