@@ -1,6 +1,8 @@
 Servers
 =======
 
+Based on nimmis/alpine-apache-php. Using alpine3.7 apache2.4 php(5.6.33/7.2.1)
+
 Docker container based servers
 ------------------------------
 
