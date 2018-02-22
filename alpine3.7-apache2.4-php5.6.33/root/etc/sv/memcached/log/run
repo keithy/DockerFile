@@ -1,3 +1,9 @@
 #!/bin/sh
+
+# create /var/log/memcached if not present
+if [ ! -d /var/log/memcached ]; then
+  mkdir /var/log/memcached
+fi
+
 exec svlogd -tt /var/log/memcached
 

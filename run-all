@@ -1,4 +1,12 @@
 #!/bin/sh
+#echo 'docker exec -i -t '
 docker run -d -p 4056:80 -v /Users/Shared/server3:/server -v /Users/Shared/server3-php5/backup:/backup -v /Users/Shared/server3-php5/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-php5 keithy/alpine-apache-php:php5.6.33 /boot.sh
+#echo -n ' sh'
+
+#echo 'docker exec -i -t '
 docker run -d -p 4072:80 -v /Users/Shared/server3:/server -v /Users/Shared/server3-php7/backup:/backup -v /Users/Shared/server3-php7/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-php7 keithy/alpine-apache-php:php7.2.1 /boot.sh
+#echo -n ' sh'
+
+#echo 'docker exec -i -t '
 docker run -d -v /Users/Shared/server3:/server -v /Users/Shared/server3-staging-tools/backup:/backup -v /Users/Shared/server3-staging-tools/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-staging-toolkit keithy/website-staging-toolkit:latest /boot.sh 
+#echo -n ' sh'
