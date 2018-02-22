@@ -8,5 +8,5 @@ docker run -d -p 4072:80 -v /Users/Shared/server3:/server -v /Users/Shared/serve
 #echo -n ' sh'
 
 #echo 'docker exec -i -t '
-docker run -d -v /Users/Shared/server3:/server -v /Users/Shared/server3-staging-tools/backup:/backup -v /Users/Shared/server3-staging-tools/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-staging-toolkit keithy/website-staging-toolkit:latest /boot.sh 
+docker run -d -v /Users/Shared/server3:/server -v /Users/Shared/staging-toolkit/backup:/backup -v /Users/Shared/staging-toolkit/rules:/rules -v /Users/Shared/server3/var/www:/var/www --name server3-staging-toolkit keithy/website-staging-toolkit:latest /boot.sh 
 #echo -n ' sh'

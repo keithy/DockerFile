@@ -1,19 +1,22 @@
-FROM nimmis/alpine-micro:3.7
+FROM nimmis/alpine-micro:edge
 MAINTAINER Keith keithy@consultant.com
 
 COPY root/. /
 
-RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
-
-	apk update && apk upgrade && \
+RUN	apk update && apk upgrade && \
 
 	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/website-staging-toolkit && \
 
-	apk add ruby git &&\
+	apk add git nano rsync &&\
+
+	apk add ruby ruby-rake &&\
+
+	apk add ruby-rspec &&\
 	
     #clear cache
     rm -rf /var/cache/apk/*
 
+VOLUME /rules
 VOLUME /var/www
 
 
