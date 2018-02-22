@@ -12,6 +12,8 @@ RUN	apk update && apk upgrade && \
 	apk add ruby ruby-rake &&\
 
 	apk add ruby-rspec &&\
+
+	gem install thor && \
 	
     #clear cache
     rm -rf /var/cache/apk/*
