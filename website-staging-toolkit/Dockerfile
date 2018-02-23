@@ -9,12 +9,13 @@ RUN	apk update && apk upgrade && \
 
 	apk add git nano rsync &&\
 
-	apk add ruby ruby-rake &&\
+	apk add ruby ruby-rake ruby-rspec ruby-rdoc  && \
 
-	apk add ruby-rspec &&\
+	gem install thor rio && \
 
-	gem install thor && \
-	
+	# http://www.rubydoc.info/gems/tty-command
+	gem install tty-command pastel && \
+
     #clear cache
     rm -rf /var/cache/apk/*
 

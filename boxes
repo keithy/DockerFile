@@ -1,0 +1,148 @@
+#!/usr/bin/env ruby
+#
+# stuff it is helpful to know!
+#https://medium.com/zendesk-engineering/running-a-child-process-in-ruby-properly-febd0a2b6ec8
+#https://nickcharlton.net/posts/ruby-subprocesses-with-stdout-stderr-streams.html
+
+require "thor"
+require "pp"
+require "rio"
+require './lib/rio+'
+require "rake"
+require 'shell'
+require 'fileutils'
+require './lib/thord'
+#require 'ruby-progressbar'
+
+class Box
+  def self.all
+    RIO.cwd.all.files('Dockerfile').collect {|df| self.new(df)}
+  end
+
+  def self.matching(match)
+    Box.all.select {|box| box.name.match(match)}
+  end
+
+  def p_name
+    print name()
+    yield if block_given?
+    print "\n" unless $Verbose
+  end
+
+  def initialize(df)
+    @dockerfile = df
+    @home = @dockerfile.dirname
+  end
+
+  def name
+    @home.filename.to_s
+  end
+
+  def dockerfile_size
+    @df.size
+  end
+
+  def build3(options)
+    @home.shell3('docker', 'build', '-t', name(), @home.to_str) do |stdout, stderr, thread|
+      puts "stdout: #{stdout}" # => "simple output"
+      puts "stderr: #{stderr}" # => "error: an error happened"
+      puts "pid: #{thread.pid}" # => 12345
+    end
+  end
+
+  def build &block
+    @home.shell2e('docker', 'build', '-t', name(), @home.to_str, &block)
+  end
+
+  def to_s
+    @home.to_s
+  end
+end
+
+class Boxes < Thord
+
+  desc "build <match>", "build containers"
+  method_option :verbose, :type => :boolean, :aliases => '-v'
+  method_option :all, :type => :boolean, :aliases => '-a'
+
+  def build(match = nil)
+    match = '.*' if options['all']
+    if match == nil then
+      invoke :list
+      return
+    end
+
+    boxes = Box.matching(match)
+
+    if options['verbose'] then
+      puts "Building: #{boxes.collect {|ea| ea.name} }"
+
+      boxes.each {|ea|
+        print ea.name
+        ea.build {|line| puts line }
+      }
+    else
+      boxes.each {|ea|
+        print ea.name , ' '
+        ea.build {|line| print '.' }
+        print "\n"
+      }
+    end
+
+  end
+
+  desc "run", "run containers"
+
+  def launch(match = '.*')
+    puts "I'm a run task!"
+  end
+
+  desc "start", "start containers"
+
+  def start(match = '.*')
+    puts "I'm a start task!"
+  end
+
+  desc "stop", "stop containers"
+
+  def stop(match = '.*')
+    puts "I'm a stop task!"
+  end
+
+  desc "clean", "clean all containers"
+
+  def clean(match = '.*')
+    puts "I'm a clean task!"
+  end
+
+  desc "sh", "run stuff"
+
+  def sh(*cmd)
+    puts "I'm a sh task!"
+    puts RIO.cwd
+    puts RIO.cwd.shell2e(*cmd) {|line|
+      puts line
+    }
+  end
+
+  desc "list", "list build containers"
+
+  def list(match = '.*')
+    boxes = Box.matching(match)
+    puts "Available: #{boxes.collect {|ea| ea.name} }"
+  end
+
+  no_commands {
+    def p_name(obj)
+      print
+      yield if block_given?
+      print "\n" unless $Verbose
+    end
+  }
+
+  def self.source_root
+    File.dirname(__FILE__)
+  end
+end
+
+Boxes.start

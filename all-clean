@@ -1,0 +1,10 @@
+#!/bin/sh
+
+docker rm server3-php7
+docker rm server3-php5
+docker rm server3-staging-toolkit
+
+docker rmi keithy/alpine-apache-php:php5.6.33
+docker rmi  keithy/alpine-apache-php:php7.2.1
+docker rmi keithy/website-staging-toolkit:latest
+
