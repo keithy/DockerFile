@@ -3,13 +3,26 @@ MAINTAINER Keith keithy@consultant.com
 
 COPY root/. /
 
-RUN	apk update && apk upgrade && \
+RUN	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/website-staging-toolkit && \
 
-	printf "Build of keithy/website-staging-toolkit, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/website-staging-toolkit && \
+    # UPDATE
 
-	apk add git nano rsync &&\
+	apk update && apk upgrade && \
+
+    # SSH
+
+    apk --upgrade add openssh-client && \
+	echo "UserKnownHostsFile /.ssh-agent/known_hosts" >> /etc/ssh/ssh_config && \
+
+    # TOOLS
+
+	apk add git nano rsync && \
+
+    # RUBY
 
 	apk add ruby ruby-rake ruby-rspec ruby-rdoc  && \
+
+    # RUBY GEMS
 
 	gem install thor rio && \
 
@@ -19,10 +32,10 @@ RUN	apk update && apk upgrade && \
     #clear cache
     rm -rf /var/cache/apk/*
 
-VOLUME /rules
-VOLUME /var/www
+VOLUME /backup
+VOLUME /wst
 
+ENV MYSQL_HOST=240.1.1.1
 
-
-
-
+#docs need to know!
+#https://github.com/nardeas/docker-ssh-agent

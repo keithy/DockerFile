@@ -1,12 +1,45 @@
 #!/bin/sh
-#echo 'docker exec -i -t '
-docker run -d -p 4056:80 -v /Users/Shared/server3:/server -v /Users/Shared/server3-php5/backup:/backup -v /Users/Shared/server3-php5/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-php5 keithy/alpine-apache-php:php5.6.33 /boot.sh
-#echo -n ' sh'
 
-#echo 'docker exec -i -t '
-docker run -d -p 4072:80 -v /Users/Shared/server3:/server -v /Users/Shared/server3-php7/backup:/backup -v /Users/Shared/server3-php7/web:/web -v /Users/Shared/server3/var/www:/var/www --name server3-php7 keithy/alpine-apache-php:php7.2.1 /boot.sh
-#echo -n ' sh'
+docker run -d -p 4056:80 \
+    --name server3-php5 \
+    --hostname server3-php5 \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/server3:/server \
+    -v /Users/Shared/server3-php5/backup:/backup \
+    -v /Users/Shared/server3-php5/web:/web \
+    -v /Users/Shared/server3/var/www:/var/www \
+    -e "MYSQL_HOST=edit3.pul" \
+    keithy/alpine-apache-php:php5.6.33 \
+    /boot.sh
 
-#echo 'docker exec -i -t '
-docker run -d -v /Users/Shared/server3:/server -v /Users/Shared/staging-toolkit/backup:/backup -v /Users/Shared/staging-toolkit/rules:/rules -v /Users/Shared/server3/var/www:/var/www --name server3-staging-toolkit keithy/website-staging-toolkit:latest /boot.sh 
-#echo -n ' sh'
+docker run -d -p 4072:80 \
+    --name server3-php7 \
+    --hostname server3-php7 \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/server3:/server \
+    -v /Users/Shared/server3-php7/backup:/backup \
+    -v /Users/Shared/server3-php7/web:/web \
+    -v /Users/Shared/server3/var/www:/var/www \
+    -e "MYSQL_HOST=edit3.pul" \
+    keithy/alpine-apache-php:php7.2.1 \
+    /boot.sh
+
+cd docker-ssh-agent
+./run.sh
+
+docker run -d \
+    --name server3-php5 \
+    --hostname server3-staging-toolkit \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/server3:/server \
+    -v /Users/Shared/staging-toolkit/backup:/backup \
+    -v /Users/Shared/staging-toolkit/wst:/wst/ \
+    -v /Users/Shared/server3/var/www:/var/www \
+    --name server3-staging-toolkit \
+    -e "MYSQL_HOST=edit3.pul" \
+    keithy/website-staging-toolkit:latest \
+    /boot.sh
+
+
+
+

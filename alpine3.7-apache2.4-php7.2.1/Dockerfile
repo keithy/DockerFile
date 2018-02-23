@@ -21,16 +21,24 @@ COPY root/. /
 # trust this project public key to trust the packages.
 ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.pub
 
-# first remove edge repositories
 
-RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
-
-	apk update && apk upgrade && \
 
 	#printf "Build of %s, date: %s\n" $(echo $IMAGE_NAME | sed 's#^.*io/##')  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/$(echo $DOCKER_REPO | awk -F '/' '{print $NF}') && \
-	printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
 
-	#APACHE
+RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
+
+    # UPDATE
+
+    # first remove edge repositories
+    sed -i '/\/edge\//d' /etc/apk/repositories && \
+	apk update && apk upgrade && \
+
+    # SSH
+
+    apk --upgrade add openssh-client && \
+  	echo "UserKnownHostsFile /.ssh-agent/known_hosts" >> /etc/ssh/ssh_config && \
+
+	# APACHE
 
     apk add apache2 libxml2 apache2-utils && \
     mkdir /web/ && chown -R apache.apache /web && \
@@ -47,11 +55,11 @@ RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
     sed -i 's#/var/log/apache2/#/web/logs/#g' /etc/logrotate.d/apache2 && \
     sed -i 's/Options Indexes/Options /g' /etc/apache2/httpd.conf && \
 
-	#MEMCACHED
+	# MEMCACHED
 	
 	apk add memcached && \
 
-	#PHP
+	# PHP7
 
 	# add the most up to date php repository, replace the correct versions as reqd.
 	
@@ -82,8 +90,11 @@ RUN	sed -i '/\/edge\//d' /etc/apk/repositories && \
     #clear cache
     rm -rf /var/cache/apk/*
 
-VOLUME /web
-VOLUME /var/www
+ENV MYSQL_HOST="240.1.1.1"
+
+VOLUME /backup
+VOLUME /con
+VOLUME /var/www/
 VOLUME /server
 
 EXPOSE 80
