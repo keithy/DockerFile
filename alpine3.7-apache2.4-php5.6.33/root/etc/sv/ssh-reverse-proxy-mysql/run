@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z "$MYSQL_HOST" ]; then
+    echo "Need to set MYSQL_HOST=$MYSQL_HOST"
+fi
+
+exec ssh -NT4 -L 3306:localhost:3306 $MYSQL_HOST
+
+echo ssh-reverse-proxy-mysql is not running - aborting
+exec /usr/bin/sleep 10

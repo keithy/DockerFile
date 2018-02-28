@@ -24,7 +24,7 @@ docker run -d -p 4072:80 \
     keithy/alpine-apache-php:php7.2.1 \
     /boot.sh
 
-cd docker-ssh-agent
+cd ssh-agent
 ./run.sh
 
 docker run -d \
