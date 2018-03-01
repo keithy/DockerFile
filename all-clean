@@ -9,5 +9,5 @@ docker rmi  keithy/alpine-apache-php:php7.2.1
 docker rm server3-staging-toolkit
 docker rmi keithy/website-staging-toolkit:latest
 
-cd ssh-agent
+cd docker-ssh-agent
 ./run.sh -D

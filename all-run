@@ -1,5 +1,8 @@
 #!/bin/sh
 
+cd docker-ssh-agent
+./run.sh
+
 docker run -d -p 4056:80 \
     --name server3-php5 \
     --hostname server3-php5 \
@@ -23,9 +26,6 @@ docker run -d -p 4072:80 \
     -e "MYSQL_HOST=edit3.pul" \
     keithy/alpine-apache-php:php7.2.1 \
     /boot.sh
-
-cd ssh-agent
-./run.sh
 
 docker run -d \
     --name server3-php5 \
