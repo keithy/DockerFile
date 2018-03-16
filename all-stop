@@ -3,5 +3,3 @@
 docker stop server3-php5
 
 docker stop server3-php7
-
-docker stop server3-staging-toolkit

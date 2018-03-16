@@ -15,7 +15,22 @@ if [ ! "$TIMEZONE" = "" ];
   then
   /usr/local/bin/set_tz $TIMEZONE
 fi
-#
+
+### Modification to merge in user startup scripts from /web
+if [ ! -d /web/config/_run_always ]; then
+  mkdir -p /web/config/_run_always
+fi
+
+if [ ! -d /web/config/_run_once ]; then
+  mkdir -p /web/config/_run_once
+fi
+ 
+cp /web/config/_run_always/* /etc/run_always
+cp /web/config/_run_once/* /etc/run_once
+
+chown -R root.wheel /etc/run_always
+chown -R root.wheel /etc/run_once
+
 # run script once
 echo "Run scripts in /etc/run_once"
 #/bin/run-parts /etc/run_once

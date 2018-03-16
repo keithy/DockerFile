@@ -4,7 +4,5 @@ docker build -t keithy/alpine-apache-php:php5.6.33 alpine3.7-apache2.4-php5.6.33
 
 docker build -t keithy/alpine-apache-php:php7.2.1 alpine3.7-apache2.4-php7.2.1
 
-docker build -t keithy/website-staging-toolkit:latest website-staging-toolkit
-
 
  

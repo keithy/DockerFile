@@ -27,19 +27,6 @@ docker run -d -p 4072:80 \
     keithy/alpine-apache-php:php7.2.1 \
     /boot.sh
 
-docker run -d \
-    --name server3-php5 \
-    --hostname server3-staging-toolkit \
-    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
-    -v /Users/Shared/server3:/server \
-    -v /Users/Shared/staging-toolkit/backup:/backup \
-    -v /Users/Shared/staging-toolkit/wst:/wst/ \
-    -v /Users/Shared/server3/var/www:/var/www \
-    --name server3-staging-toolkit \
-    -e "MYSQL_HOST=edit3.pul" \
-    keithy/website-staging-toolkit:latest \
-    /boot.sh
-
 
 
 
