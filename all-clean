@@ -1,9 +1,14 @@
 #!/bin/sh
-
+docker rm server1-php5
+docker rm server2-php5
 docker rm server3-php5
+docker rm server3-php5-R
+
 docker rmi keithy/alpine-apache-php:php5.6.33
 
+
 docker rm server3-php7
+docker rm server3-php7-R
 docker rmi  keithy/alpine-apache-php:php7.2.1
 
 cd docker-ssh-agent

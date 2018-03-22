@@ -1,5 +1,9 @@
 #!/bin/sh
-
+docker start server1-php5
+docker start server2-php5
 docker start server3-php5
 
-docker start server3-php7
+docker start server3-php5-R
+
+# docker start server3-php7
+# docker start server3-php7-R

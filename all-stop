@@ -1,5 +1,13 @@
 #!/bin/sh
 
+#production mimic
+docker stop server1-php5
+docker stop server2-php5
 docker stop server3-php5
 
-docker stop server3-php7
+#rehearsal
+docker stop server3-php5-R
+
+#experimental - next phase
+# docker stop server3-php7
+# docker stop server3-php7-R

@@ -17,16 +17,17 @@ if [ ! "$TIMEZONE" = "" ];
 fi
 
 ### Modification to merge in user startup scripts from /web
-if [ ! -d /web/config/_run_always ]; then
-  mkdir -p /web/config/_run_always
+if [ ! -d /shared/config/_run_always ]; then
+  mkdir -p /shared/config/_run_always
 fi
 
-if [ ! -d /web/config/_run_once ]; then
-  mkdir -p /web/config/_run_once
+if [ ! -d /shared/config/_run_once ]; then
+  mkdir -p /shared/config/_run_once
 fi
  
-cp /web/config/_run_always/* /etc/run_always
-cp /web/config/_run_once/* /etc/run_once
+#add local startup tweeks into this container
+cp /shared/config/_run_always/* /etc/run_always
+cp /shared/config/_run_once/* /etc/run_once
 
 chown -R root.wheel /etc/run_always
 chown -R root.wheel /etc/run_once

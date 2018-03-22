@@ -40,7 +40,7 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
 
 	# APACHE
 
-    apk add apache2 libxml2 apache2-utils && \
+    apk add apache2 libxml2 apache2-utils apache2-ssl && \
     mkdir /web/ && chown -R apache.apache /web && \
    
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/web/html"#g' /etc/apache2/httpd.conf && \
@@ -92,10 +92,12 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
 
 ENV MYSQL_HOST="240.1.1.1"
 
-VOLUME /backup
-VOLUME /con
-VOLUME /var/www/
+#VOLUME /backup
 VOLUME /server
+VOLUME /shared
+VOLUME /logs
+VOLUME /web
+VOLUME /var/www/
 
 EXPOSE 80
 

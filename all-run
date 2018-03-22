@@ -3,29 +3,95 @@
 cd docker-ssh-agent
 ./run.sh
 
-docker run -d -p 4056:80 \
+docker run -d -p 1056:80 \
+    --name server1-php5 \
+    --hostname server1-php5 \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mnt/server1-editadmin:/server \
+    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-logs/mimic-php5-server1:/logs \
+    -v /Users/Shared/mimic-webroots/web-php5-server1:/web \
+    -v /Users/Shared/mnt/server1-editadmin/var/www/html:/var/www/html \
+    -v /Users/Shared/mnt/server1-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/mnt/server1-editadmin/home/editadmin/rehearsal:/var/www/rehearsal \
+    -e "MYSQL_HOST=edit1.pul" \
+    keithy/alpine-apache-php:php5.6.33 \
+    /boot.sh
+
+docker run -d -p 2056:80 \
+    --name server2-php5 \
+    --hostname server2-php5 \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mnt/server2-editadmin:/server \
+    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-logs/mimic-php5-server2:/logs \
+    -v /Users/Shared/mimic-webroots/web-php5-server2:/web \
+    -v /Users/Shared/mnt/server2-editadmin/var/www/html:/var/www/html \
+    -v /Users/Shared/mnt/server2-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/mnt/server2-editadmin/home/editadmin/rehearsal:/var/www/rehearsal \
+    -e "MYSQL_HOST=edit2.pul" \
+    keithy/alpine-apache-php:php5.6.33 \
+    /boot.sh
+
+# server 3 production mimic server (with temporary local rehearsal)
+docker run -d -p 3056:80 \
     --name server3-php5 \
     --hostname server3-php5 \
     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
-    -v /Users/Shared/server3:/server \
-    -v /Users/Shared/server3-php5/backup:/backup \
-    -v /Users/Shared/server3-php5/web:/web \
-    -v /Users/Shared/server3/var/www:/var/www \
+    -v /Users/Shared/mnt/server3-editadmin:/server \
+    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-logs/mimic-php5-server3:/logs \
+    -v /Users/Shared/mimic-webroots/web-php5-server3:/web \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/html \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
     keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
 
-docker run -d -p 4072:80 \
-    --name server3-php7 \
-    --hostname server3-php7 \
+# server 3 rehearsal server
+docker run -d -p 3156:80 \
+    --name server3-php5-R \
+    --hostname server3-php5-R \
     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
-    -v /Users/Shared/server3:/server \
-    -v /Users/Shared/server3-php7/backup:/backup \
-    -v /Users/Shared/server3-php7/web:/web \
-    -v /Users/Shared/server3/var/www:/var/www \
+    -v /Users/Shared/mnt/server3-editadmin:/server \
+    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-logs/mimic-php5-server3R:/logs \
+    -v /Users/Shared/mimic-webroots/web-php5-server3R:/web \
+    -v /Users/Shared/deploy-test/rehearsal:/var/www/html \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
-    keithy/alpine-apache-php:php7.2.1 \
+    keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
+
+# docker run -d -p 3072:80 \
+#     --name server3-php7 \
+#     --hostname server3-php7 \
+#     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+#     -v /Users/Shared/mnt/server3-editadmin:/server \
+#     -v /Users/Shared/mimic-config-php7/shared:/shared \
+#     -v /Users/Shared/mimic-logs/mimic-php7-server3:/logs \
+#     -v /Users/Shared/mimic-webroots/web-php7-server3:/web \
+#     -v /Users/Shared/server3/var/www:/var/www \
+#     -e "MYSQL_HOST=edit3.pul" \
+#     keithy/alpine-apache-php:php7.2.1 \
+#     /boot.sh
+# 
+# docker run -d -p 3172:80 \
+#     --name server3-php7-R \
+#     --hostname server3-php7-R \
+#     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+#     -v /Users/Shared/mnt/server3-editadmin:/server \
+#     -v /Users/Shared/mimic-config-php7/shared:/shared \
+#     -v /Users/Shared/mimic-logs/mimic-php7-server3R:/logs \
+#     -v /Users/Shared/mimic-webroots/web-php7-server3R:/web \
+#     -v /Users/Shared/deploy-test/rehearsal:/var/www/html \
+#     -e "MYSQL_HOST=edit3.pul" \
+#     keithy/alpine-apache-php:php7.2.1 \
+#     /boot.sh
+# 
+# 
 
 
 
