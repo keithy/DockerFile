@@ -74,11 +74,7 @@ VOLUME /logs
 VOLUME /web
 VOLUME /var/www/
 
-
 EXPOSE 80
-
-
-
 
 
 

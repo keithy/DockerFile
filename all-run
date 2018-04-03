@@ -3,59 +3,74 @@
 cd docker-ssh-agent
 ./run.sh
 
-docker run -d -p 1056:80 \
+# server 1 php5 production mimic server
+docker run -d \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 1056:80 \
     --name server1-php5 \
     --hostname server1-php5 \
-    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
     -v /Users/Shared/mnt/server1-editadmin:/server \
-    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-config-shared:/shared \
     -v /Users/Shared/mimic-logs/mimic-php5-server1:/logs \
     -v /Users/Shared/mimic-webroots/web-php5-server1:/web \
     -v /Users/Shared/mnt/server1-editadmin/var/www/html:/var/www/html \
     -v /Users/Shared/mnt/server1-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/mnt/server1-editadmin/home/editadmin/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit1.pul" \
+    -e "PROXY_LIVE_HOST=edit1.pul" \
+    -p 1111:8080 \
     keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
 
-docker run -d -p 2056:80 \
+# server 2 php5 production mimic server
+docker run -d \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 2056:80 \
     --name server2-php5 \
     --hostname server2-php5 \
     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
     -v /Users/Shared/mnt/server2-editadmin:/server \
-    -v /Users/Shared/mimic-config-php5/shared:/shared \
+    -v /Users/Shared/mimic-config-shared:/shared \
     -v /Users/Shared/mimic-logs/mimic-php5-server2:/logs \
     -v /Users/Shared/mimic-webroots/web-php5-server2:/web \
     -v /Users/Shared/mnt/server2-editadmin/var/www/html:/var/www/html \
     -v /Users/Shared/mnt/server2-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/mnt/server2-editadmin/home/editadmin/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit2.pul" \
+    -e "PROXY_LIVE_HOST=edit2.pul" \
+    -p 2222:8080 \
     keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
 
-# server 3 production mimic server (with temporary local rehearsal)
-docker run -d -p 3056:80 \
+# server 3 php5 production mimic server (with temporary developer hosted rehearsal)
+docker run -d \
+    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 3056:80 \
     --name server3-php5 \
     --hostname server3-php5 \
-    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
     -v /Users/Shared/mnt/server3-editadmin:/server \
-    -v /Users/Shared/mimic-config-php5/shared:/shared \
     -v /Users/Shared/mimic-logs/mimic-php5-server3:/logs \
     -v /Users/Shared/mimic-webroots/web-php5-server3:/web \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/html \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
+    -e "PROXY_LIVE_HOST=edit3.pul" \
+    -p 3333:8080 \
     keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
 
 # server 3 rehearsal server
-docker run -d -p 3156:80 \
+docker run -d \
+	--volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+    -p 3156:80 \
     --name server3-php5-R \
     --hostname server3-php5-R \
-    --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
     -v /Users/Shared/mnt/server3-editadmin:/server \
-    -v /Users/Shared/mimic-config-php5/shared:/shared \
     -v /Users/Shared/mimic-logs/mimic-php5-server3R:/logs \
     -v /Users/Shared/mimic-webroots/web-php5-server3R:/web \
     -v /Users/Shared/deploy-test/rehearsal:/var/www/html \
@@ -65,7 +80,8 @@ docker run -d -p 3156:80 \
     keithy/alpine-apache-php:php5.6.33 \
     /boot.sh
 
-# docker run -d -p 3072:80 \
+# server 3 php7 production server
+#docker run -d -p 3072:80 \
 #     --name server3-php7 \
 #     --hostname server3-php7 \
 #     --volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
