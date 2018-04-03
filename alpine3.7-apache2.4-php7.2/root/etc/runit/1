@@ -1,0 +1,49 @@
+#!/bin/sh
+# system one time tasks
+
+PATH=/command:/sbin:/bin:/usr/sbin:/usr/bin
+
+#
+# save all environment variables sent to container
+export > /etc/envvars
+
+#
+# check for timezone setting
+#
+
+if [ ! "$TIMEZONE" = "" ]; 
+  then
+  /usr/local/bin/set_tz $TIMEZONE
+fi
+
+### Modification to merge in user startup scripts from /shared
+if [ ! -d /shared/config/_run_always ]; then
+  mkdir -p /shared/config/_run_always
+fi
+
+if [ ! -d /shared/config/_run_once ]; then
+  mkdir -p /shared/config/_run_once
+fi
+ 
+#add local startup tweeks into this container
+cp /shared/config/_run_always/* /etc/run_always
+cp /shared/config/_run_once/* /etc/run_once
+
+chown -R root.wheel /etc/run_always
+chown -R root.wheel /etc/run_once
+
+# run script once
+echo "Run scripts in /etc/run_once"
+#/bin/run-parts /etc/run_once
+find /etc/run_once -type f -perm /111 -print0 | sort -z | xargs -0 -n 1 env
+
+# remove scripts in folder
+rm -Rf /etc/run_once/*
+
+# run scripts everytime
+echo "Run scripts is /etc/run_always"
+#/bin/run-parts /etc/run_always
+find /etc/run_always -type f -perm /111 -print0 | sort -z | xargs -0 -n 1 env
+
+touch /etc/runit/stopit
+chmod 0 /etc/runit/stopit
