@@ -20,7 +20,7 @@ docker run -d \
     -e "PROXY_LIVE_HOST=edit1.pul" \
     -p 1111:8080 \
     -p 1443:8443 \
-    keithy/alpine-apache-php:php5.6.33 \
+    keithy/alpine-apache-php:php5.6 \
     /boot.sh
 
 # server 2 php5 production mimic server
@@ -40,7 +40,7 @@ docker run -d \
     -e "MYSQL_HOST=edit2.pul" \
     -e "PROXY_LIVE_HOST=edit2.pul" \
     -p 2222:8080 \
-    keithy/alpine-apache-php:php5.6.33 \
+    keithy/alpine-apache-php:php5.6 \
     /boot.sh
 
 # server 3 php5 production mimic server (with temporary developer hosted rehearsal)
@@ -59,7 +59,7 @@ docker run -d \
     -e "MYSQL_HOST=edit3.pul" \
     -e "PROXY_LIVE_HOST=edit3.pul" \
     -p 3333:8080 \
-    keithy/alpine-apache-php:php5.6.33 \
+    keithy/alpine-apache-php:php5.6 \
     /boot.sh
 
 # server 3 rehearsal server
@@ -76,7 +76,7 @@ docker run -d \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
-    keithy/alpine-apache-php:php5.6.33 \
+    keithy/alpine-apache-php:php5.6 \
     /boot.sh
 
 #server 3 php7 production server
@@ -93,7 +93,7 @@ docker run -d \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
-    keithy/alpine-apache-php:php7.2.1 \
+    keithy/alpine-apache-php:php7.2 \
     /boot.sh
 
 #server 3 php7 rehearsal server
@@ -110,7 +110,24 @@ docker run -d \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/deploy-test/rehearsal:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
-    keithy/alpine-apache-php:php7.2.1 \
+    keithy/alpine-apache-php:php7.2 \
+    /boot.sh
+    
+#server 3 php7 development server
+docker run -d \
+	--volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 9972:80 \
+	--name server3-php7-D \
+	--hostname server3-php7-D \
+    -v /Users/Shared/mnt/server3-editadmin:/server \
+	-v /Users/Shared/mimic-logs/mimic-php7-server3D:/logs \
+	-v /Users/Shared/mimic-webroots/web-php7-server3D:/web \
+    -v /Users/Shared/development/rehearsal:/var/www/html \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/development/rehearsal:/var/www/rehearsal \
+    -e "MYSQL_HOST=edit3.pul" \
+    keithy/alpine-apache-php:php7.2 \
     /boot.sh
     
 # docker run -d -p 3172:80 \

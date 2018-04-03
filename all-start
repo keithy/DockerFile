@@ -1,9 +1,16 @@
 #!/bin/sh
+
+#production
 docker start server1-php5
 docker start server2-php5
 docker start server3-php5
 
+#rehearsal
+#docker start server1-php5-R
+#docker start server2-php5-R
 docker start server3-php5-R
 
-# docker start server3-php7
-# docker start server3-php7-R
+#new
+docker start server3-php7
+docker start server3-php7-R
+docker start server3-php7-D
