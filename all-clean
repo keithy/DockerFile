@@ -10,6 +10,8 @@ docker rm server1-php5-R
 docker rm server2-php5-R
 docker rm server3-php5-R
 
+docker rm server3-php5-D
+
 docker rmi keithy/alpine-apache-php:php5.6
 
 #new

@@ -78,6 +78,23 @@ docker run -d \
     -e "MYSQL_HOST=edit3.pul" \
     keithy/alpine-apache-php:php5.6 \
     /boot.sh
+    
+#server 3 php5 Development server
+docker run -d \
+	--volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 9956:80 \
+	--name server3-php5-D \
+	--hostname server3-php5-D \
+    -v /Users/Shared/mnt/server3-editadmin:/server \
+	-v /Users/Shared/mimic-logs/mimic-php5-server3D:/logs \
+	-v /Users/Shared/mimic-webroots/web-php5-server3D:/web \
+    -v /Users/Shared/development/rehearsal:/var/www/html \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/development/rehearsal:/var/www/rehearsal \
+    -e "MYSQL_HOST=edit3.pul" \
+    keithy/alpine-apache-php:php5.6 \
+    /boot.sh
 
 #server 3 php7 production server
 docker run -d \
