@@ -14,7 +14,7 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
     # first remove edge repositories
     sed -i '/\/edge\//d' /etc/apk/repositories && \
 	apk update && apk upgrade && \
-
+	
     # SSH
 
     apk --upgrade add openssh-client && \
@@ -22,7 +22,7 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 
 	# APACHE
 
-    apk add apache2 libxml2 apache2-utils apache2-ssl && \
+    apk add apache2 libxml2 apache2-utils && \
     mkdir /web/ && chown -R apache.apache /web && \
 
     sed -i 's#^DocumentRoot ".*#DocumentRoot "/shared/html"#g' /etc/apache2/httpd.conf && \
@@ -30,8 +30,8 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
     sed -i 's#^ServerRoot .*#ServerRoot /web#g'  /etc/apache2/httpd.conf && \
     sed -i 's/^#ServerName.*/ServerName webproxy/' /etc/apache2/httpd.conf && \
     sed -i 's#^IncludeOptional /etc/apache2/conf#IncludeOptional /shared/config/conf#g' /etc/apache2/httpd.conf && \
-    sed -i 's#PidFile "/run/.*#Pidfile "/var/run/httpd.pid"#g'  /etc/apache2/conf.d/mpm.conf && \
-    sed -i 's#Directory "/var/www/localhost/htdocs.*#Directory "/shared/html" >#g' /etc/apache2/httpd.conf && \
+    sed -i 's#PidFile "/run/.*#Pidfile "/tmp/run/httpd.pid"#g'  /etc/apache2/conf.d/mpm.conf && \
+    sed -i 's#Directory "/var/www/localhost/htdocs.*#Directory "/web/html" >#g' /etc/apache2/httpd.conf && \
     sed -i 's#Directory "/var/www/localhost/cgi-bin.*#Directory "/shared/config/cgi-bin" >#g' /etc/apache2/httpd.conf && \
 
     sed -i 's#/var/log/apache2/#/logs/#g' /etc/logrotate.d/apache2 && \
@@ -44,14 +44,21 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 
 	# PHP
 
-	apk add php5-apache2 php5-pdo_mysql php5-mysql php5-json openssl && \
+	apk add php5-apache2 php5-pdo_mysql php5-mysql apache2-utils php5-json && \
+
+	# PHP5 XDEBUG
+	apk add ca-certificates && \
+	wget --quiet --output-document=/etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
+	wget https://github.com/sgerrand/alpine-pkg-php5-xdebug/releases/download/2.5.5-r0/php5-xdebug-2.5.5-r0.apk && \
+
+	apk add php5-xdebug-2.5.5-r0.apk && \
 
 	# aiming to be minimal we will leave these for now
 	#
-	# apk add  php5-openssl php5-fpm php5-pgsql php5-sqlite3 php5-phar && \
+	# apk add openssl php5-openssl php5-fpm php5-pgsql php5-sqlite3 php5-phar && \
     # apk add  php5-apcu php5-intl php5-imagick && \
     # apk add php5-mcrypt php5-json php5-gd php5-curl && \
-    # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer&& \
+    # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
 
 	#PHP5-MEMCACHED
 
@@ -72,11 +79,13 @@ VOLUME /server
 VOLUME /shared
 VOLUME /logs
 VOLUME /web
-VOLUME /var/www/html
-VOLUME /var/www/production
-VOLUME /var/www/rehearsal
+VOLUME /var/www/
+
 
 EXPOSE 80
+
+
+
 
 
 

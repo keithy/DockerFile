@@ -25,7 +25,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 	#printf "Build of %s, date: %s\n" $(echo $IMAGE_NAME | sed 's#^.*io/##')  `date -u +"%Y-%m-%dT%H:%M:%SZ"` > /etc/BUILDS/$(echo $DOCKER_REPO | awk -F '/' '{print $NF}') && \
 
-	RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
+RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"%Y-%m-%dT%H:%M:%SZ"` >> /etc/BUILDS/alpine-apache-php && \
 
     # UPDATE
 
@@ -40,21 +40,20 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
 
 	# APACHE
 
-    apk add apache2 libxml2 apache2-utils apache2-ssl && \
+    apk add apache2 libxml2 apache2-utils && \
     mkdir /web/ && chown -R apache.apache /web && \
-
-    sed -i 's#^DocumentRoot ".*#DocumentRoot "/shared/html"#g' /etc/apache2/httpd.conf && \
+   
+    sed -i 's#^DocumentRoot ".*#DocumentRoot "/web/html"#g' /etc/apache2/httpd.conf && \
     sed -i 's#AllowOverride [Nn]one#AllowOverride All#' /etc/apache2/httpd.conf && \
     sed -i 's#^ServerRoot .*#ServerRoot /web#g'  /etc/apache2/httpd.conf && \
     sed -i 's/^#ServerName.*/ServerName webproxy/' /etc/apache2/httpd.conf && \
-    sed -i 's#^IncludeOptional /etc/apache2/conf#IncludeOptional /shared/config/conf#g' /etc/apache2/httpd.conf && \
-    sed -i 's#PidFile "/run/.*#Pidfile "/var/run/httpd.pid"#g'  /etc/apache2/conf.d/mpm.conf && \
-    sed -i 's#Directory "/var/www/localhost/htdocs.*#Directory "/shared/html" >#g' /etc/apache2/httpd.conf && \
-    sed -i 's#Directory "/var/www/localhost/cgi-bin.*#Directory "/shared/config/cgi-bin" >#g' /etc/apache2/httpd.conf && \
+    sed -i 's#^IncludeOptional /etc/apache2/conf#IncludeOptional /web/config/conf#g' /etc/apache2/httpd.conf && \
+    sed -i 's#PidFile "/run/.*#Pidfile "/web/run/httpd.pid"#g'  /etc/apache2/conf.d/mpm.conf && \
+    sed -i 's#Directory "/var/www/localhost/htdocs.*#Directory "/web/html" >#g' /etc/apache2/httpd.conf && \
+    sed -i 's#Directory "/var/www/localhost/cgi-bin.*#Directory "/web/cgi-bin" >#g' /etc/apache2/httpd.conf && \
 
-    sed -i 's#/var/log/apache2/#/logs/#g' /etc/logrotate.d/apache2 && \
+    sed -i 's#/var/log/apache2/#/web/logs/#g' /etc/logrotate.d/apache2 && \
     sed -i 's/Options Indexes/Options /g' /etc/apache2/httpd.conf && \
-
 
 	# MEMCACHED
 	
@@ -74,7 +73,7 @@ ADD https://php.codecasts.rocks/php-alpine.rsa.pub /etc/apk/keys/php-alpine.rsa.
     apk add php7-apcu@php php7-intl@php php7-json@php php7-gd@php php7-curl@php && \
     apk add php7-fpm@php php7-mysqlnd@php php7-phar@php && \
     
-    apk add php7-pdo_mysql@php php7-mysqli@php && \
+    apk add php7-pdo_mysql@php php7-mysqli@php php7-xdebug@php && \
     
     apk add php7-libsodium@php php7-memcached@php && \
     
@@ -98,9 +97,7 @@ VOLUME /server
 VOLUME /shared
 VOLUME /logs
 VOLUME /web
-VOLUME /var/www/html
-VOLUME /var/www/production
-VOLUME /var/www/rehearsal
+VOLUME /var/www/
 
 EXPOSE 80
 
