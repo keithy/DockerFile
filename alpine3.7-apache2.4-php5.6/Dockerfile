@@ -46,6 +46,11 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 
 	apk add php5-apache2 php5-pdo_mysql php5-mysql apache2-utils php5-json && \
 
+	ln -s /usr/bin/php5 /usr/bin/php && \
+
+	# for .phar support for tracy
+	apk add php5-phar php5-zlib php5-iconv && \
+
 	# PHP5 XDEBUG
 	apk add ca-certificates && \
 	wget --quiet --output-document=/etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub && \
@@ -56,7 +61,7 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 	# aiming to be minimal we will leave these for now
 	#
 	# apk add openssl php5-openssl php5-fpm php5-pgsql php5-sqlite3 php5-phar && \
-    # apk add  php5-apcu php5-intl php5-imagick && \
+    # apk add php5-apcu php5-intl php5-imagick && \
     # apk add php5-mcrypt php5-json php5-gd php5-curl && \
     # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
 
@@ -68,7 +73,14 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 	apk add php5-memcached-2.2.0-r0.apk &&\
 
     chown -R apache.apache /web && \
-         
+       	
+	#PHP5-LIBSODIUM
+	apk add libsodium-dev php5-pear php5-dev g++ autoconf make && \
+	#fix pecl
+	sed -i "$ s|\-n||g" /usr/bin/pecl && \		
+	pecl install libsodium-1.0.7 && \
+	echo "extension=libsodium.so" > /etc/php5/conf.d/libsodium.ini && \
+	
     #clear cache
     rm -rf /var/cache/apk/*
 
