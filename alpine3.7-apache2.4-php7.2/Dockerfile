@@ -83,11 +83,11 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
     
    	ln -s /usr/bin/php7 /usr/bin/php && \
 
-	# leave composer for now
-	#
-    # apk add libressl && \
-    # apk add curl openssl && \
-    # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
+	# Composer
+
+    apk add libressl && \
+    apk add curl openssl && \
+    cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
     
     #clear cache
     rm -rf /var/cache/apk/*
