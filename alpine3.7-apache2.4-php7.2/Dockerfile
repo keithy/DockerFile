@@ -71,8 +71,8 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
 
     apk add php7-apache2@php php7-openssl@php && \
     apk add php7-apcu@php php7-intl@php php7-json@php php7-gd@php php7-curl@php && \
-    apk add php7-fpm@php php7-mysqlnd@php php7-phar@php php7-zlib@php php7-xml@php  && \
-    
+    apk add php7-fpm@php php7-mysqlnd@php php7-phar@php php7-zlib@php && \
+        
     apk add php7-pdo_mysql@php php7-mysqli@php php7-xdebug@php php7-iconv@php && \
     
     apk add php7-sodium@php php7-memcached@php && \
@@ -88,7 +88,10 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
     apk add libressl && \
     apk add curl openssl && \
     cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
-    
+
+	# for phpunit    
+    # apk add php7-xml@php php7-xmlrpc@php && \
+
     #clear cache
     rm -rf /var/cache/apk/*
 

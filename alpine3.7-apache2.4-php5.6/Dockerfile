@@ -50,6 +50,9 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 
 	# for .phar support for tracy
 	apk add php5-phar php5-zlib php5-iconv && \
+	
+	# for captcha processing
+	apk add php5-gd && \ 
 
 	# PHP5 XDEBUG
 	apk add ca-certificates && \
