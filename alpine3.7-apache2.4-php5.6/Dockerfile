@@ -66,7 +66,7 @@ RUN	printf "Build of keithy/alpine-apache-php:php5.6.33, date: %s\n"  `date -u +
 	# apk add openssl php5-openssl php5-fpm php5-pgsql php5-sqlite3 php5-phar && \
     # apk add php5-apcu php5-intl php5-imagick && \
     # apk add php5-mcrypt php5-json php5-gd php5-curl && \
-    # cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer && \
+    # cd /tmp && curl -sS https://getcomposer.org/installer | php5 && mv composer.phar /usr/local/bin/composer && \
 
 	#PHP5-MEMCACHED
 

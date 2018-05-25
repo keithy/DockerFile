@@ -4,6 +4,7 @@
 docker rm server1-php5
 docker rm server2-php5
 docker rm server3-php5
+docker rm test2-php7
 
 #rehearsal
 docker rm server1-php5-R

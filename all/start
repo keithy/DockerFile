@@ -4,6 +4,7 @@
 docker start server1-php5
 docker start server2-php5
 docker start server3-php5
+docker start test2-php7
 
 #rehearsal
 #docker start server1-php5-R

@@ -106,7 +106,7 @@ docker run -d \
     -v /Users/Shared/mnt/server3-editadmin:/server \
 	-v /Users/Shared/mimic-logs/mimic-php7-server3:/logs \
 	-v /Users/Shared/mimic-webroots/web-php7-server3:/web \
-    -v /Users/Shared/development/rehearsal/master:/var/www/html \
+    -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/html \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
     -v /Users/Shared/development/rehearsal/master:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
@@ -123,9 +123,9 @@ docker run -d \
     -v /Users/Shared/mnt/server3-editadmin:/server \
 	-v /Users/Shared/mimic-logs/mimic-php7-server3R:/logs \
 	-v /Users/Shared/mimic-webroots/web-php7-server3R:/web \
-    -v /Users/Shared/development/rehearsal/13.0.1_PHP_7:/var/www/html \
+    -v /Users/Shared/development/rehearsal/master:/var/www/html \
     -v /Users/Shared/mnt/server3-editadmin/var/www/html:/var/www/production \
-    -v /Users/Shared/development/rehearsal/13.0.1_PHP_7:/var/www/rehearsal \
+    -v /Users/Shared/development/rehearsal/master:/var/www/rehearsal \
     -e "MYSQL_HOST=edit3.pul" \
     keithy/alpine-apache-php:php7.2 \
     /boot.sh
@@ -134,7 +134,7 @@ docker run -d \
 docker run -d \
 	--volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
     -v /Users/Shared/mimic-config-shared:/shared \
-	-p 9972:80 \
+	-p 3272:80 \
 	--name server3-php7-D \
 	--hostname server3-php7-D \
     -v /Users/Shared/mnt/server3-editadmin:/server \
@@ -146,7 +146,27 @@ docker run -d \
     -e "MYSQL_HOST=edit3.pul" \
     keithy/alpine-apache-php:php7.2 \
     /boot.sh
+ 
+#test2.pul php7 production server
+docker run -d \
+	--volumes-from=ssh-agent -e SSH_AUTH_SOCK=/.ssh-agent/socket \
+    -v /Users/Shared/mimic-config-shared:/shared \
+	-p 2072:80 \
+	--name test2-php7 \
+	--hostname test2-php7 \
+    -v /Users/Shared/mnt/test2-editadmin:/server \
+	-v /Users/Shared/mimic-logs/mimic-php7-test2:/logs \
+	-v /Users/Shared/mimic-webroots/web-php7-test2:/web \
+    -v /Users/Shared/development/rehearsal/master:/var/www/html \
+    -v /Users/Shared/mnt/test2-editadmin/var/www/html:/var/www/production \
+    -v /Users/Shared/development/rehearsal/master:/var/www/rehearsal \
+    -e "MYSQL_HOST=test2.pul" \
+    -e "PROXY_LIVE_HOST=test2.pul" \
+    -p 22222:8080 \
+    keithy/alpine-apache-php:php7.2 \
+    /boot.sh
     
+       
 # docker run -d -p 3172:80 \
 #     --name server3-php7-R \
 #     --hostname server3-php7-R \

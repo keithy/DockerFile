@@ -4,6 +4,7 @@
 docker stop server1-php5
 docker stop server2-php5
 docker stop server3-php5
+docker stop test2-php7
 
 #rehearsal
 #docker stop server1-php5-R

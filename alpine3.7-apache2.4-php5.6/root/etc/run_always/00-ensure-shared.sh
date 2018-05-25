@@ -7,11 +7,10 @@ if [ ! -d /shared/config ]; then
   chown -R apache.apache /shared/config
 fi
 
-
-if [ ! -f /shared/config/httpd.conf ]; then
-  cp -R /etc/apache2/* /shared/config/
-  chown -R apache.apache /shared/config
-fi
+#if [ ! -f /shared/config/httpd.conf ]; then
+#  cp -R /etc/apache2/* /shared/config/
+# chown -R apache.apache /shared/config
+#fi
 
 if [ ! -d /shared/cgi-bin ]; then
   mkdir /shared/cgi-bin

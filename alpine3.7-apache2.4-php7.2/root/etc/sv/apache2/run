@@ -11,5 +11,5 @@ export APACHE_LOG_DIR=/logs/
 export LANG=C
 export LANG
 
-exec /usr/sbin/httpd -DNO_DETACH -f /shared/config/httpd.conf
+exec /usr/sbin/httpd -DNO_DETACH -DPHP7 -DNOSYSTEMD -f /etc/httpd/conf/httpd.conf
 

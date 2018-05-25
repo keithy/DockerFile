@@ -83,7 +83,7 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
     
    	ln -s /usr/bin/php7 /usr/bin/php && \
 
-	# Composer
+ 	# Composer
 
     apk add libressl && \
     apk add curl openssl && \
