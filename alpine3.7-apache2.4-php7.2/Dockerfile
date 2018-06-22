@@ -73,7 +73,7 @@ RUN printf "Build of keithy/alpine-apache-php:php7.2.1, date: %s\n"  `date -u +"
     apk add php7-apcu@php php7-intl@php php7-json@php php7-gd@php php7-curl@php && \
     apk add php7-fpm@php php7-mysqlnd@php php7-phar@php php7-zlib@php && \
         
-    apk add php7-pdo_mysql@php php7-mysqli@php php7-xdebug@php php7-iconv@php && \
+    apk add php7-pdo_mysql@php php7-mysqli@php php7-xdebug@php php7-iconv@php php7-xml@php && \
     
     apk add php7-sodium@php php7-memcached@php && \
     

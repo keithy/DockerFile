@@ -1,7 +1,5 @@
 #!/bin/sh
-
-# make link /usr/bin/php ->  /usr/bin/php5 if missing
-
+ 
 # mirroring CentOS7 organisation /etc/httpd/conf/httpd.conf
 
 if [ ! -d /etc/httpd ]; then

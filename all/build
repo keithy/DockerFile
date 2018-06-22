@@ -1,8 +1,10 @@
 #!/bin/sh
 
-docker build -t keithy/alpine-apache-php:php5.6 alpine3.7-apache2.4-php5.6
-
+docker rmi  keithy/alpine-apache-php:php7.2
 docker build -t keithy/alpine-apache-php:php7.2 alpine3.7-apache2.4-php7.2
+
+docker rmi keithy/alpine-apache-php:php5.6
+docker build -t keithy/alpine-apache-php:php5.6 alpine3.7-apache2.4-php5.6
 
 
  

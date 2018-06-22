@@ -1,24 +1,24 @@
 #!/bin/sh
 
 #production
-docker rm server1-php5
-docker rm server2-php5
-docker rm server3-php5
+docker rm server1-php7
+docker rm server2-php7
+docker rm server3-php7
 docker rm test2-php7
 
 #rehearsal
-docker rm server1-php5-R
-docker rm server2-php5-R
-docker rm server3-php5-R
+docker rm server1-php7-R
+docker rm server2-php7-R
+docker rm server3-php7-R
 
-docker rm server3-php5-D
+#development
+docker rm server1-php7-D
+docker rm server2-php7-D
+docker rm server3-php7-D
 
 docker rmi keithy/alpine-apache-php:php5.6
 
 #new
-docker rm server3-php7
-docker rm server3-php7-R
-docker rm server3-php7-D
 docker rmi  keithy/alpine-apache-php:php7.2
 
 cd docker-ssh-agent
